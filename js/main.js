@@ -13,6 +13,11 @@ const TITLES = [
   'Двухместное бунгало',
 ];
 
+const USER_COUNTER = {
+  min: 1,
+  max: 8,
+};
+
 const PRISE = {
   minPrise: 0,
   maxPrise: 10000,
@@ -70,7 +75,7 @@ const DESCRIPTION = [
   'Тихое место',
 ];
 
-const photos = [
+const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
@@ -87,74 +92,33 @@ const LOCATION = {
   },
 };
 
-const getRandomIntegers = function (min, max) {
-  return (min < max && min >= 0) ? Math.floor(Math.random() * (max - min + 1) + min) : false;
+const getRandomNumber = (min, max, roundTo = 0) => {
+  const num = min + Math.random() * (max - min);
+  return roundTo > 0 ? num.toFixed(roundTo) : Math.round(num);
 };
 
-const getRandomDesetic = function (min, max, des = 5) {
-  return (min < max && min >= 0) ? +(Math.random() * (max - min) + min).toFixed(des) : false;
-};
-
-/* Перемешивает массив */
-
-const shuffle = (array) => {
-  for (let el = array.length - 1; el > 0; el--) {
-    const tmp = array[el];
-    const randomEl = Math.floor(Math.random() * (el + 1));
-    array[el] = array[randomEl];
-    array[randomEl] = tmp;
-  }
-  return array;
-};
-
-/* Создает массив нужной длины в случайном пордке */
-
-const getShuffleArray = (numberElements) => {
-  const array = [];
-  for (let el = 1; el <= numberElements; el++) {
-    array.push(el);
-  }
-  return shuffle(array);
-};
-
-/* Случайный элемент массива */
-
-const getRandomArrayElement = (elemests) => elemests[getRandomIntegers(0, elemests.length - 1)];
-
-/* Получил не повторяющийся массив в случайном порядке длиною 'SIMILAR_ADVERT_COUNT' и сложил в переменную */
-
-const getRandomArray = getShuffleArray(SIMILAR_ADVERT_COUNT);
-
-/* Случайная длинна массива в случайном пордке */
-
-const getShuffleRandomArray = (arr) => {
-  const newArr = shuffle(arr);
-  const numberRandom = getRandomIntegers(0, arr.length - 1);
-  return newArr.slice(numberRandom);
-};
-
-let currentCount = SIMILAR_ADVERT_COUNT;
+const getRandomArrayElement = (elements) => elements[Math.round(Math.random() * (elements.length - 1))];
 
 const createAdvert = function () {
-  currentCount--;
-  const locationLat = getRandomDesetic(LOCATION.lat.min, LOCATION.lat.max);
-  const locationLng = getRandomDesetic(LOCATION.lng.min, LOCATION.lng.max);
+  const locationLat = getRandomNumber(LOCATION.lat.min, LOCATION.lat.max, 5);
+  const locationLng = getRandomNumber(LOCATION.lng.min, LOCATION.lng.max, 5);
+
   return {
     author: {
-      avatar: `img/avatars/user${getRandomArray[currentCount] <= 9 ? '0' : ''}${getRandomArray[currentCount]}.png`,
+      avatar: `img/avatars/user0${getRandomNumber(USER_COUNTER.min, USER_COUNTER.max)}.png`,
     },
     offer: {
       title: getRandomArrayElement(TITLES),
       address: `location.x: ${locationLat}, location.y ${locationLng}`,
-      price: getRandomIntegers(PRISE.minPrise, PRISE.maxPrise),
+      price: getRandomNumber(PRISE.minPrise, PRISE.maxPrise),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomIntegers(ROOMS.minRooms, ROOMS.maxRooms),
-      guests: getRandomIntegers(GUESTS.minGuests, GUESTS.maxGuests),
+      rooms: getRandomNumber(ROOMS.minRooms, ROOMS.maxRooms),
+      guests: getRandomNumber(GUESTS.minGuests, GUESTS.maxGuests),
       checkin: getRandomArrayElement(CHECKINS),
       checkout: getRandomArrayElement(CHECKOUTS),
-      features: getShuffleRandomArray(FEATURES),
+      features: Array.from(new Set(new Array(getRandomNumber(1, 6)).fill('').map(() => getRandomArrayElement(FEATURES)))),
       description: getRandomArrayElement(DESCRIPTION),
-      photos: getShuffleRandomArray(photos),
+      photos: Array.from(new Set(new Array(getRandomNumber(1, 3)).fill('').map(() => getRandomArrayElement(PHOTOS)))),
     },
     location: {
       lat: locationLat,
@@ -163,5 +127,5 @@ const createAdvert = function () {
   };
 };
 
-const similarAdvert = new Array(SIMILAR_ADVERT_COUNT).fill('').map(() => createAdvert());
-similarAdvert;
+const createSimilarAdvert = () => new Array(SIMILAR_ADVERT_COUNT).fill('').map(() => createAdvert());
+createSimilarAdvert();
