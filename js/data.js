@@ -113,7 +113,7 @@ const createAdvert = function () {
       checkout: getRandomArrayElement(CHECKOUTS),
       features: [...new Set(new Array(getRandomNumber(1, 6)).fill('').map(() => getRandomArrayElement(FEATURES)))],
       description: getRandomArrayElement(DESCRIPTION),
-      photos: [...(new Set(new Array(getRandomNumber(1, 3)).fill('').map(() => getRandomArrayElement(PHOTOS))))],
+      photos: [...new Set(new Array(getRandomNumber(1, 3)).fill('').map(() => getRandomArrayElement(PHOTOS)))],
     },
     location: {
       lat: locationLat,
