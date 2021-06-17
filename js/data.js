@@ -34,13 +34,13 @@ const TYPES = [
 ];
 
 const ROOMS = {
-  minRooms: 0,
-  maxRooms: 10,
+  minRooms: 1,
+  maxRooms: 4,
 };
 
 const GUESTS = {
-  minGuests: 0,
-  maxGuests: 3,
+  minGuests: 2,
+  maxGuests: 10,
 };
 
 const CHECKINS = [
