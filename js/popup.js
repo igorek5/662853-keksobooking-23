@@ -14,48 +14,70 @@ const popupCard = document.querySelector('#card').content.querySelector('.popup'
 const similarAdverts = createSimilarAdvert();
 const similarListFragment = document.createDocumentFragment();
 
-const setFeatures = (arrFeatures, featuresList) => {
-  arrFeatures.forEach((el) => {
+const setFeatures = (features, container) => {
+  features.forEach((el) => {
     const item = document.createElement('li');
     item.classList.add('popup__feature');
     item.classList.add(`popup__feature--${el}`);
-    featuresList.appendChild(item);
+    container.appendChild(item);
   });
 };
 
-const setPhotoAdvert = (arrPhotos, fotosList) => {
-  arrPhotos.forEach((el) => {
-    fotosList.insertAdjacentHTML('beforeend', `<img src="${el}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`);
+const createImgTemplate = (src) => `<img src="${src}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+
+const setPhotoAdvert = (photos, container) => {
+  photos.forEach((el) => {
+    container.insertAdjacentHTML('beforeend', createImgTemplate(el));
   });
 };
 
 similarAdverts.forEach(({author, offer}) => {
   const advertElement = popupCard.cloneNode(true);
 
+  const userAvatar = advertElement.querySelector('.popup__avatar');
   const titleAdvert = advertElement.querySelector('.popup__title');
+  const addressAdvert = advertElement.querySelector('.popup__text--address');
+  const priceAdvert = advertElement.querySelector('.popup__text--price');
+  const typeAdvert = advertElement.querySelector('.popup__type');
+
+  const capacityAdvert = advertElement.querySelector('.popup__text--capacity');
+  const rooms = offer.rooms ? `${offer.rooms} комнаты ` : '';
+  const guests = offer.guests ? `для ${offer.guests} гостей` : '';
+  const capacityText = `${rooms}${guests}`;
+
+  const timeAdvert = advertElement.querySelector('.popup__text--time');
+  const checkin = offer.checkin ? `Заезд после ${offer.checkin}` : '';
+  const checkout = offer.checkout ? `выезд до ${offer.checkout}` : '' ;
+  const timeComma = checkin && checkout ? ', ' : '';
+  const timeText = `${checkin}${timeComma}${checkout}`;
+
+  const featuresList = advertElement.querySelector('.popup__features');
+  const description = advertElement.querySelector('.popup__description');
+  const photosList = advertElement.querySelector('.popup__photos');
+
+  author.avatar ? userAvatar.src = author.avatar : userAvatar.remove();
+
   offer.title ? titleAdvert.textContent = offer.title : titleAdvert.remove();
 
-  advertElement.querySelector('.popup__text--address').textContent = offer.address;
-  advertElement.querySelector('.popup__text--price').innerHTML = `${offer.price} <span>₽/ночь</span>`;
-  advertElement.querySelector('.popup__type').textContent = TYPE_OF_HOUSING[offer.type];
-  advertElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
-  advertElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+  offer.address ? addressAdvert.textContent = offer.address : addressAdvert.remove();
 
-  advertElement.querySelectorAll('.popup__feature').forEach((item) => item.remove());
-  const featuresList = advertElement.querySelector('.popup__features');
+  offer.price ? priceAdvert.textContent = `${offer.price} ₽/ночь` : priceAdvert.remove();
+
+  offer.type ? typeAdvert.textContent = TYPE_OF_HOUSING[offer.type] : typeAdvert.remove();
+
+  capacityText ? capacityAdvert.textContent = capacityText : capacityAdvert.remove();
+
+  timeText ? timeAdvert.textContent = timeText : timeAdvert.remove();
+
+  featuresList.innerHTML = '';
   offer.features ? setFeatures(offer.features, featuresList) : featuresList.remove();
 
-  const description = advertElement.querySelector('.popup__description');
   offer.description ? description.textContent = offer.description : description.remove();
 
-  const fotosList = advertElement.querySelector('.popup__photos');
-  advertElement.querySelector('.popup__photo').remove();
-  offer.photos ? setPhotoAdvert(offer.photos, fotosList) : fotosList.remove();
-
-  const userAvatar = advertElement.querySelector('.popup__avatar');
-  author.avatar ? userAvatar.src = author.avatar : userAvatar.remove();
+  photosList.innerHTML = '';
+  offer.photos ? setPhotoAdvert(offer.photos, photosList) : photosList.remove();
 
   similarListFragment.appendChild(advertElement);
 });
 
-mapCanvas.appendChild(similarListFragment);
+mapCanvas.appendChild(similarListFragment.childNodes[0]);
