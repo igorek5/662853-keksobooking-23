@@ -34,13 +34,13 @@ const TYPES = [
 ];
 
 const ROOMS = {
-  minRooms: 0,
-  maxRooms: 10,
+  minRooms: 1,
+  maxRooms: 4,
 };
 
 const GUESTS = {
-  minGuests: 0,
-  maxGuests: 3,
+  minGuests: 2,
+  maxGuests: 10,
 };
 
 const CHECKINS = [
@@ -113,7 +113,7 @@ const createAdvert = function () {
       checkout: getRandomArrayElement(CHECKOUTS),
       features: [...new Set(new Array(getRandomNumber(1, 6)).fill('').map(() => getRandomArrayElement(FEATURES)))],
       description: getRandomArrayElement(DESCRIPTION),
-      photos: [...(new Set(new Array(getRandomNumber(1, 3)).fill('').map(() => getRandomArrayElement(PHOTOS))))],
+      photos: [...new Set(new Array(getRandomNumber(1, 3)).fill('').map(() => getRandomArrayElement(PHOTOS)))],
     },
     location: {
       lat: locationLat,
