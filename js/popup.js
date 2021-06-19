@@ -14,20 +14,12 @@ const popupCard = document.querySelector('#card').content.querySelector('.popup'
 const similarAdverts = createSimilarAdvert();
 const similarListFragment = document.createDocumentFragment();
 
-const setFeatures = (features, container) => {
-  features.forEach((el) => {
-    const item = document.createElement('li');
-    item.classList.add('popup__feature');
-    item.classList.add(`popup__feature--${el}`);
-    container.appendChild(item);
-  });
-};
+const createImgMarkup = (el) => `<img src="${el}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+const createFeatureMarkup = (el) => `<li class="popup__feature popup__feature--${el}"></li>`;
 
-const createImgTemplate = (src) => `<img src="${src}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-
-const setPhotoAdvert = (photos, container) => {
-  photos.forEach((el) => {
-    container.insertAdjacentHTML('beforeend', createImgTemplate(el));
+const render = (elements, container, fn) => {
+  elements.forEach((el) => {
+    container.insertAdjacentHTML('beforeend', fn(el));
   });
 };
 
@@ -70,12 +62,12 @@ similarAdverts.forEach(({author, offer}) => {
   timeText ? timeAdvert.textContent = timeText : timeAdvert.remove();
 
   featuresList.innerHTML = '';
-  offer.features ? setFeatures(offer.features, featuresList) : featuresList.remove();
+  offer.features && offer.features.length? render(offer.features, featuresList, createFeatureMarkup) : featuresList.remove();
 
   offer.description ? description.textContent = offer.description : description.remove();
 
   photosList.innerHTML = '';
-  offer.photos ? setPhotoAdvert(offer.photos, photosList) : photosList.remove();
+  offer.photos && offer.photos.length ? render(offer.photos, photosList, createImgMarkup) : photosList.remove();
 
   similarListFragment.appendChild(advertElement);
 });
