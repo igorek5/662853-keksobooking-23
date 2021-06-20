@@ -1,5 +1,5 @@
 import './popup.js';
-import {formDisabledPage, formEnabledPage} from './form.js';
+import {disablePageForm, enablePageForm} from './form.js';
 
-formDisabledPage();
-formEnabledPage();
+disablePageForm();
+enablePageForm();
