@@ -1,29 +1,24 @@
-const adForm = document.querySelector('.ad-form');
-const mapForm = document.querySelector('.map__filters');
+const forms = document.querySelectorAll('form');
 
-const traverseFormElements = (el, isActive) => {
-  const elementsForm = ['input', 'textarea', 'select', 'button'];
-  elementsForm.forEach((formItem) => {
-    const fields = el.querySelectorAll(formItem);
-    fields.length ? fields.forEach((item) => item.disabled = isActive) : false;
+const traverseFormElements = (form, isActive) => {
+  const formElements = form.querySelectorAll('input, textarea, select, button');
+  formElements.forEach((formElement) => {
+    formElement.disabled = isActive;
   });
 };
 
-const disableForm = (...formContainer) => {
-  formContainer.forEach((form) => {
+const disablePageForm = () => {
+  forms.forEach((form) => {
     form.classList.add('disabled');
     traverseFormElements(form, true);
   });
 };
 
-const enableForm = (...formContainer) => {
-  formContainer.forEach((form) => {
+const enablePageForm = () => {
+  forms.forEach((form) => {
     form.classList.remove('disabled');
     traverseFormElements(form, false);
   });
 };
-
-const disablePageForm = () => disableForm(adForm, mapForm);
-const enablePageForm = () => enableForm(adForm, mapForm);
 
 export {disablePageForm, enablePageForm};
