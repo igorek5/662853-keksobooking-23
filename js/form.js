@@ -21,4 +21,4 @@ const enablePageForm = () => {
   });
 };
 
-export {disablePageForm, enablePageForm};
+export { disablePageForm, enablePageForm };
