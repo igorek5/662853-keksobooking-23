@@ -55,7 +55,7 @@ similarAdverts.forEach(({author, offer}) => {
 
   offer.price ? priceAdvert.textContent = `${offer.price} ₽/ночь` : priceAdvert.remove();
 
-  offer.type ? typeAdvert.textContent = TYPE_OF_HOUSING[offer.type] : typeAdvert.remove();
+  offer.type && TYPE_OF_HOUSING[offer.type] ? typeAdvert.textContent = TYPE_OF_HOUSING[offer.type] : typeAdvert.remove();
 
   capacityText ? capacityAdvert.textContent = capacityText : capacityAdvert.remove();
 
