@@ -67,7 +67,7 @@ const roomQuantitySelectHandler = ({ target }) => {
   RENT_ROOMS[target.value].items.forEach((item) => {
     guestQuantityOption[item].disabled = false;
   });
-  capacity.options[RENT_ROOMS[target.value].value].selected = true;
+  guestQuantityOption[RENT_ROOMS[target.value].value].selected = true;
 };
 
 const setTimeIn = ({ target }) => {
