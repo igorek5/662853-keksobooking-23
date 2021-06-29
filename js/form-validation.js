@@ -5,7 +5,7 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const guestQuantityOption = capacity.querySelectorAll('option');
 const timeIn = document.querySelector('#timein');
-const timeout = document.querySelector('#timeout');
+const timeOut = document.querySelector('#timeout');
 
 const RENT_ROOMS = {
   '1': {
@@ -24,9 +24,13 @@ const RENT_ROOMS = {
     value: 3,
     items: [3],
   },
+  'default': {
+    value: 2,
+    items: [3, 2, 1, 0],
+  },
 };
 
-const MinPrice = {
+const MIN_PRISE = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -56,35 +60,57 @@ const validateRangeField = ({ target }) => {
   target.reportValidity();
 };
 
-const setFieldDependency = () => {
-  price.min = price.placeholder = MinPrice[type.value];
+const changePriceInputState = (el) => {
+  price.min = MIN_PRISE[el.value];
+  price.placeholder = ` от ${MIN_PRISE[el.value]} руб.`;
 };
 
-const roomQuantitySelectHandler = ({ target }) => {
+const changeRoomQuantityInputState = (el) => {
+  if(!RENT_ROOMS[el.value]) {
+    el.value = 'default';
+  }
   guestQuantityOption.forEach((option) => {
     option.disabled = true;
   });
-  RENT_ROOMS[target.value].items.forEach((item) => {
+  RENT_ROOMS[el.value].items.forEach((item) => {
     guestQuantityOption[item].disabled = false;
   });
-  guestQuantityOption[RENT_ROOMS[target.value].value].selected = true;
+  guestQuantityOption[RENT_ROOMS[el.value].value].selected = true;
+};
+
+const setFieldDependency = ({target}) => {
+  changePriceInputState(target);
+  price.setCustomValidity('Изменился диапазон допустимых цен');
+  price.reportValidity();
+};
+
+const roomQuantitySelectHandler = ({ target }) => {
+  changeRoomQuantityInputState(target);
+  capacity.setCustomValidity('Изменился выбор количество мест');
+  capacity.reportValidity();
 };
 
 const setTimeIn = ({ target }) => {
-  timeout.options[target.options.selectedIndex].selected = true;
+  timeOut.options[target.options.selectedIndex].selected = true;
+  timeOut.setCustomValidity('Изменилось время выезда');
+  timeOut.reportValidity();
 };
 
 const setTimeOut = ({ target }) => {
   timeIn.options[target.options.selectedIndex].selected = true;
+  timeIn.setCustomValidity('Изменилось время заезда');
+  timeIn.reportValidity();
 };
 
 const validateForms = () => {
+  changePriceInputState(type);
+  changeRoomQuantityInputState(roomNumber);
   title.addEventListener('input', validateFieldLength);
   type.addEventListener('change', setFieldDependency);
   price.addEventListener('input', validateRangeField);
   roomNumber.addEventListener('change', roomQuantitySelectHandler);
   timeIn.addEventListener('change', setTimeIn);
-  timeout.addEventListener('change', setTimeOut);
+  timeOut.addEventListener('change', setTimeOut);
 };
 
 export { validateForms };

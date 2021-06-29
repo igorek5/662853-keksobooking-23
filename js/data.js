@@ -43,13 +43,13 @@ const GUESTS = {
   maxGuests: 10,
 };
 
-const CHECKINS = [
+const CHECK_INS = [
   '12:00',
   '13:00',
   '14:00',
 ];
 
-const CHECKOUTS = [
+const CHECK_OUTS = [
   '12:00',
   '13:00',
   '14:00',
@@ -104,13 +104,13 @@ const createAdvert = function () {
     },
     offer: {
       title: getRandomArrayElement(TITLES),
-      address: `location.x: ${locationLat}, location.y ${locationLng}`,
+      address: `${locationLat}, ${locationLng}`,
       price: getRandomNumber(PRISE.minPrise, PRISE.maxPrise),
       type: getRandomArrayElement(TYPES),
       rooms: getRandomNumber(ROOMS.minRooms, ROOMS.maxRooms),
       guests: getRandomNumber(GUESTS.minGuests, GUESTS.maxGuests),
-      checkin: getRandomArrayElement(CHECKINS),
-      checkout: getRandomArrayElement(CHECKOUTS),
+      checkIn: getRandomArrayElement(CHECK_INS),
+      checkOut: getRandomArrayElement(CHECK_OUTS),
       features: [...new Set(new Array(getRandomNumber(1, 6)).fill('').map(() => getRandomArrayElement(FEATURES)))],
       description: getRandomArrayElement(DESCRIPTION),
       photos: [...new Set(new Array(getRandomNumber(1, 3)).fill('').map(() => getRandomArrayElement(PHOTOS)))],
