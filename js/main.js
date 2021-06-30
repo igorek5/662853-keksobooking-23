@@ -1,7 +1,4 @@
-import './popup.js';
-import {disablePageForm, enablePageForm} from './form.js';
 import {validateForms} from './form-validation.js';
+import './map.js';
 
-disablePageForm();
-enablePageForm();
 validateForms();
