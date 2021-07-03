@@ -117,7 +117,7 @@
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" placeholder="5000" max="1000000" min="1000" required>
+          <input id="price" name="price" type="number" placeholder="3000" max="1000000" min="1000" required>
         </fieldset>
         <fieldset class="ad-form__element ad-form__element--time">
           <label class="ad-form__label" for="timein">Время заезда и выезда</label>
@@ -253,8 +253,14 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
-  <script src="leaflet/leaflet.js" crossorigin=""></script>
   <script src="js/main.js" type="module"></script>
+  <script src="leaflet/leaflet.js" crossorigin=""></script>
+
+  <template id="adverts_error">
+    <div class="adverts_error">
+      <p class="adverts_error__text">При загрузке объявлений произошла ошибка</p>
+    </div>
+  </template>
 
 </body>
 

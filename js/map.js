@@ -1,25 +1,21 @@
-import { enablePageForm } from './form.js';
+import { enablePageForm, setAddressInputValue } from './form.js';
 import { createSimilarAdvertPopup } from './popup.js';
-import { createSimilarAdvert } from './data.js';
 
-const inputAddress = document.querySelector('#address');
-const resetButton = document.querySelector('.ad-form__reset');
+const map = L.map('map-canvas');
 
 const TOKYO_COORDINATES = {
   lat: '35.67500',
   lng: '139.75000',
 };
 
-const setAddressInputValue = () => {
-  inputAddress.value = `${TOKYO_COORDINATES.lat}, ${TOKYO_COORDINATES.lng}`;
+const renderMap = () => {
+  map
+    .on('load', () => {
+      setAddressInputValue(TOKYO_COORDINATES.lat, TOKYO_COORDINATES.lng);
+      enablePageForm();
+    })
+    .setView(TOKYO_COORDINATES, 12);
 };
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-    setAddressInputValue();
-    enablePageForm();
-  })
-  .setView(TOKYO_COORDINATES, 12);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -44,16 +40,13 @@ const mainPinMarker = L.marker(
 
 mainPinMarker.addTo(map);
 
-resetButton.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  setAddressInputValue();
+const setCoordinatesMap = () => {
   mainPinMarker.setLatLng(TOKYO_COORDINATES);
-
   map.setView(TOKYO_COORDINATES, 12);
-});
+};
 
 mainPinMarker.on('moveend', (evt) => {
-  inputAddress.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
+  setAddressInputValue(evt.target.getLatLng().lat.toFixed(5), evt.target.getLatLng().lng.toFixed(5));
 });
 
 const markerGroup = L.layerGroup().addTo(map);
@@ -81,4 +74,8 @@ const createMarker = ({ author, location, offer }) => {
   return marker;
 };
 
-createSimilarAdvert().forEach((el) => createMarker(el));
+const createSimilarAdvert = (adverts) => {
+  adverts.forEach((el) => createMarker(el));
+};
+
+export { createSimilarAdvert, renderMap, TOKYO_COORDINATES, setCoordinatesMap};

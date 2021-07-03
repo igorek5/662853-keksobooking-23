@@ -36,6 +36,20 @@ const MIN_PRISE = {
   'hotel': 3000,
   'house': 5000,
   'palace': 10000,
+  'default': 1000,
+};
+
+const setPriseDefault = () => {
+  price.min = MIN_PRISE['default'];
+  price.placeholder = ` от ${MIN_PRISE['default']} руб.`;
+};
+
+const setValidityTimeout = (field, text) => {
+  field.setCustomValidity(text);
+  setTimeout(() => {
+    field.setCustomValidity('');
+  }, 2000);
+  field.reportValidity();
 };
 
 const validateFieldLength = ({ target }) => {
@@ -66,7 +80,7 @@ const changePriceInputState = (el) => {
 };
 
 const changeRoomQuantityInputState = (el) => {
-  if(!RENT_ROOMS[el.value]) {
+  if (!RENT_ROOMS[el.value]) {
     el.value = 'default';
   }
   guestQuantityOption.forEach((option) => {
@@ -78,28 +92,24 @@ const changeRoomQuantityInputState = (el) => {
   guestQuantityOption[RENT_ROOMS[el.value].value].selected = true;
 };
 
-const setFieldDependency = ({target}) => {
+const setFieldDependency = ({ target }) => {
   changePriceInputState(target);
-  price.setCustomValidity('Изменился диапазон допустимых цен');
-  price.reportValidity();
+  setValidityTimeout(price, 'Изменился диапазон допустимых цен');
 };
 
 const roomQuantitySelectHandler = ({ target }) => {
   changeRoomQuantityInputState(target);
-  capacity.setCustomValidity('Изменился выбор количество мест');
-  capacity.reportValidity();
+  setValidityTimeout(capacity, 'Изменился выбор количество мест');
 };
 
 const setTimeIn = ({ target }) => {
   timeOut.options[target.options.selectedIndex].selected = true;
-  timeOut.setCustomValidity('Изменилось время выезда');
-  timeOut.reportValidity();
+  setValidityTimeout(timeOut, 'Изменилось время выезда');
 };
 
 const setTimeOut = ({ target }) => {
   timeIn.options[target.options.selectedIndex].selected = true;
-  timeIn.setCustomValidity('Изменилось время заезда');
-  timeIn.reportValidity();
+  setValidityTimeout(timeIn, 'Изменилось время заезда');
 };
 
 const validateForms = () => {
@@ -113,4 +123,4 @@ const validateForms = () => {
   timeOut.addEventListener('change', setTimeOut);
 };
 
-export { validateForms };
+export { validateForms, setPriseDefault };
