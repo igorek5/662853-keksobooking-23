@@ -7,4 +7,8 @@ const getRandomArrayElement = (elements) => elements[Math.round(Math.random() * 
 
 const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
 
-export { getRandomNumber, getRandomArrayElement, isEscEvent };
+const renderElement = (el, container, position = 'beforeend') => {
+  container.insertAdjacentHTML(position, el);
+};
+
+export { getRandomNumber, getRandomArrayElement, isEscEvent, renderElement };

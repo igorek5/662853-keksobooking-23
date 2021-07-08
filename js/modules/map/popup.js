@@ -84,7 +84,7 @@ const addTypeElementTextContent = (value, element, selector) => {
   element.querySelector(selector).textContent = TYPE_OF_HOUSING[value];
 };
 
-const createSimilarAdvertPopup = (author, offer ) => {
+const createSimilarAdvertPopup = (author, offer) => {
   const advertElement = popupCard.cloneNode(true);
 
   addElementSrc(author.avatar, advertElement, '.popup__avatar');

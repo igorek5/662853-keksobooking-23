@@ -579,8 +579,15 @@ fieldset {
   width: 70px;
   height: 70px;
 
+  text-align: center;
   background-color: #e4e4de;
   border-radius: 5px;
+}
+
+.ad-form__photo img {
+  max-width: 70px;
+  max-height: 70px;
+  object-fit: contain;
 }
 
 .ad-form__element--submit {
@@ -1027,26 +1034,4 @@ fieldset {
 
 .hidden {
   display: none;
-}
-
-.adverts_error {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-
-  width: 450px;
-
-  padding: 20px;
-
-  font-size: 28px;
-  font-weight: 500;
-  text-align: center;
-
-  background-color: red;
-
-  -webkit-transform: translate(-50%);
-  -ms-transform: translate(-50%);
-
-  transform: translate(-50%);
-  z-index: 500;
 }

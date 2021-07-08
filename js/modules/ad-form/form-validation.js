@@ -41,7 +41,7 @@ const MIN_PRISE = {
 
 const setPriseDefault = () => {
   price.min = MIN_PRISE['default'];
-  price.placeholder = ` от ${MIN_PRISE['default']} руб.`;
+  price.placeholder = MIN_PRISE['default'];
 };
 
 const setValidityTimeout = (field, text) => {
@@ -76,7 +76,7 @@ const validateRangeField = ({ target }) => {
 
 const changePriceInputState = (el) => {
   price.min = MIN_PRISE[el.value];
-  price.placeholder = ` от ${MIN_PRISE[el.value]} руб.`;
+  price.placeholder = MIN_PRISE[el.value];
 };
 
 const changeRoomQuantityInputState = (el) => {
