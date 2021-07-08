@@ -5,4 +5,10 @@ const getRandomNumber = (min, max, roundTo = 0) => {
 
 const getRandomArrayElement = (elements) => elements[Math.round(Math.random() * (elements.length - 1))];
 
-export {getRandomNumber, getRandomArrayElement};
+const isEscEvent = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+const renderElement = (el, container, position = 'beforeend') => {
+  container.insertAdjacentHTML(position, el);
+};
+
+export { getRandomNumber, getRandomArrayElement, isEscEvent, renderElement };

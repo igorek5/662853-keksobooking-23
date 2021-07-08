@@ -41,7 +41,7 @@ const addElementSrc = (value, element, selector) => {
 };
 
 const addListElementContent = (value, element, selector, fn) => {
-  if (!value && value.length) {
+  if (!value || value.lenght) {
     element.querySelector(selector).remove();
     return;
   }
@@ -84,7 +84,7 @@ const addTypeElementTextContent = (value, element, selector) => {
   element.querySelector(selector).textContent = TYPE_OF_HOUSING[value];
 };
 
-const createSimilarAdvertPopup = (author, offer ) => {
+const createSimilarAdvertPopup = (author, offer) => {
   const advertElement = popupCard.cloneNode(true);
 
   addElementSrc(author.avatar, advertElement, '.popup__avatar');
@@ -94,7 +94,7 @@ const createSimilarAdvertPopup = (author, offer ) => {
   addElementTextContent(offer.description, advertElement, '.popup__description');
   addTypeElementTextContent(offer.type, advertElement, '.popup__type');
   addCapacityElementTextContent(offer.rooms, offer.guests, advertElement, '.popup__text--capacity');
-  addTimeElementTextContent(offer.checkIn, offer.checkOut, advertElement, '.popup__text--time');
+  addTimeElementTextContent(offer.checkin, offer.checkout, advertElement, '.popup__text--time');
   addListElementContent(offer.features, advertElement, '.popup__features', createFeatureMarkup);
   addListElementContent(offer.photos, advertElement, '.popup__photos', createImgMarkup);
 

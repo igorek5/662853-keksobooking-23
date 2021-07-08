@@ -1,4 +1,5 @@
-import {validateForms} from './form-validation.js';
-import './map.js';
+import {setDeactivatePageState} from './modules/set-form-state.js';
+import {initMap} from './modules/map/map.js';
 
-validateForms();
+setDeactivatePageState();
+initMap();
