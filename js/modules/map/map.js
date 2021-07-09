@@ -1,12 +1,14 @@
 import { createSimilarAdvertPopup } from './popup.js';
-import {getData} from '../api/api-service.js';
+import { getData } from '../api/api-service.js';
 import { onGetSuccess } from '../api-callbacks/on-get-success.js';
 import { onGetError } from '../api-callbacks/on-error-action.js';
 import { activateAdForm } from '../ad-form/activate-ad-form.js';
+import { filterAdverts } from '../filter/filter.js';
 
 const map = L.map('map-canvas');
 const addressInput = document.querySelector('#address');
 let mainPinMarker;
+let markerGroup;
 
 const ADVERT_COUNTER = 10;
 const CITY_CENTER = {
@@ -15,7 +17,7 @@ const CITY_CENTER = {
 };
 
 const setAddressInputValue = (lat, lng) => {
-  addressInput.value = `LatLng(${lat}, ${lng})`;
+  addressInput.value = `${lat}, ${lng}`;
 };
 
 const setCoordinatesMap = () => {
@@ -23,30 +25,38 @@ const setCoordinatesMap = () => {
   map.setView(CITY_CENTER, 12);
 };
 
+const removeMarkerGroup = () => {
+  markerGroup.clearLayers();
+};
+
 const addMarkersGroup = (arr) => {
-  const markerGroup = L.layerGroup().addTo(map);
-  arr.slice(0, ADVERT_COUNTER).forEach((el) => {
-    const { author, location, offer } = el;
-    const icon = L.icon({
-      iconUrl: 'img/pin.svg',
-      iconSize: [40, 40],
-      iconAnchor: [20, 40],
-    });
-    const marker = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng,
-      },
-      {
-        icon,
-      },
-    );
-    marker
-      .addTo(markerGroup)
-      .bindPopup(createSimilarAdvertPopup(author, offer), {
-        keepInView: true,
+  markerGroup = L.layerGroup().addTo(map);
+  arr
+    .slice()
+    .filter(filterAdverts)
+    .slice(0, ADVERT_COUNTER)
+    .forEach((el) => {
+      const { author, location, offer } = el;
+      const icon = L.icon({
+        iconUrl: 'img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
       });
-  });
+      const marker = L.marker(
+        {
+          lat: location.lat,
+          lng: location.lng,
+        },
+        {
+          icon,
+        },
+      );
+      marker
+        .addTo(markerGroup)
+        .bindPopup(createSimilarAdvertPopup(author, offer), {
+          keepInView: true,
+        });
+    });
 };
 
 const initMap = () => {
@@ -86,5 +96,5 @@ const initMap = () => {
   });
 };
 
-export { setCoordinatesMap, initMap, addMarkersGroup };
+export { setCoordinatesMap, initMap, addMarkersGroup, removeMarkerGroup };
 

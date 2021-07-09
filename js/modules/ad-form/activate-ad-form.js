@@ -8,10 +8,17 @@ import { setPriseDefault } from './form-validation.js';
 import { clearImgBlocks, addChooserInputsListeners } from './load-photo.js';
 
 const addForm = document.querySelector('.ad-form');
+const filter = document.querySelector('.map__filters');
 
 const onAddFormSubmit = (evt) => {
   evt.preventDefault();
   sendData(onSendSuccess, onSendError, new FormData(evt.target));
+};
+
+const resetFilter = () => {
+  filter.reset();
+  const changeEvent = new Event('change');
+  filter.dispatchEvent(changeEvent);
 };
 
 const resetAddForm = () => {
@@ -23,6 +30,7 @@ const resetAddForm = () => {
 const onAddFormReset = () => {
   setTimeout(() => {
     resetAddForm();
+    resetFilter();
   });
 };
 
@@ -34,4 +42,4 @@ const activateAdForm = () => {
   addForm.addEventListener('reset', onAddFormReset);
 };
 
-export { activateAdForm, resetAddForm };
+export { activateAdForm, resetAddForm, resetFilter };

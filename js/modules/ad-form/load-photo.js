@@ -22,10 +22,11 @@ const loadChangeHandler = (evt) => {
           previewImg.src = result;
           break;
         case photoChooserInput:
-          photoContainer.innerHTML = '';
-          imgElement = document.createElement('img');
+          if (!imgElement) {
+            imgElement = document.createElement('img');
+            photoContainer.appendChild(imgElement);
+          }
           imgElement.src = result;
-          photoContainer.appendChild(imgElement);
           break;
         default:
           break;

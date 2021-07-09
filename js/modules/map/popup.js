@@ -1,4 +1,4 @@
-const TYPE_OF_HOUSING = {
+const typeOfHousing = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -11,7 +11,7 @@ const popupCard = document.querySelector('#card').content.querySelector('.popup'
 const createImgMarkup = (elements) => elements.map((el) => `<img src="${el}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`).join('\n');
 const createFeatureMarkup = (elements) => elements.map((el) => `<li class="popup__feature popup__feature--${el}"></li>`).join('\n');
 
-const render = (elements, container, fn) => {
+const renderElements = (elements, container, fn) => {
   container.insertAdjacentHTML('beforeend', fn(elements));
 };
 
@@ -46,7 +46,7 @@ const addListElementContent = (value, element, selector, fn) => {
     return;
   }
   element.querySelector(selector).innerHTML = '';
-  render(value, element.querySelector(selector), fn);
+  renderElements(value, element.querySelector(selector), fn);
 };
 
 
@@ -77,11 +77,11 @@ const addCapacityElementTextContent = (valueRooms, valueGuests, element, selecto
 };
 
 const addTypeElementTextContent = (value, element, selector) => {
-  if (!value || !TYPE_OF_HOUSING[value]) {
+  if (!value || !typeOfHousing[value]) {
     element.querySelector(selector).remove();
     return;
   }
-  element.querySelector(selector).textContent = TYPE_OF_HOUSING[value];
+  element.querySelector(selector).textContent = typeOfHousing[value];
 };
 
 const createSimilarAdvertPopup = (author, offer) => {
