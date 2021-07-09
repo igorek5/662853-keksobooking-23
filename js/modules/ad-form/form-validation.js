@@ -7,7 +7,7 @@ const guestQuantityOption = capacity.querySelectorAll('option');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
 
-const RENT_ROOMS = {
+const roomsToOptions = {
   '1': {
     value: 2,
     items: [2],
@@ -30,7 +30,7 @@ const RENT_ROOMS = {
   },
 };
 
-const MIN_PRISE = {
+const typeToPrice = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -40,16 +40,8 @@ const MIN_PRISE = {
 };
 
 const setPriseDefault = () => {
-  price.min = MIN_PRISE['default'];
-  price.placeholder = MIN_PRISE['default'];
-};
-
-const setValidityTimeout = (field, text) => {
-  field.setCustomValidity(text);
-  setTimeout(() => {
-    field.setCustomValidity('');
-  }, 2000);
-  field.reportValidity();
+  price.min = typeToPrice['default'];
+  price.placeholder = typeToPrice['default'];
 };
 
 const validateFieldLength = ({ target }) => {
@@ -75,41 +67,37 @@ const validateRangeField = ({ target }) => {
 };
 
 const changePriceInputState = (el) => {
-  price.min = MIN_PRISE[el.value];
-  price.placeholder = MIN_PRISE[el.value];
+  price.min = typeToPrice[el.value];
+  price.placeholder = typeToPrice[el.value];
 };
 
 const changeRoomQuantityInputState = (el) => {
-  if (!RENT_ROOMS[el.value]) {
+  if (!roomsToOptions[el.value]) {
     el.value = 'default';
   }
   guestQuantityOption.forEach((option) => {
     option.disabled = true;
   });
-  RENT_ROOMS[el.value].items.forEach((item) => {
+  roomsToOptions[el.value].items.forEach((item) => {
     guestQuantityOption[item].disabled = false;
   });
-  guestQuantityOption[RENT_ROOMS[el.value].value].selected = true;
+  guestQuantityOption[roomsToOptions[el.value].value].selected = true;
 };
 
 const setFieldDependency = ({ target }) => {
   changePriceInputState(target);
-  setValidityTimeout(price, 'Изменился диапазон допустимых цен');
 };
 
 const roomQuantitySelectHandler = ({ target }) => {
   changeRoomQuantityInputState(target);
-  setValidityTimeout(capacity, 'Изменился выбор количество мест');
 };
 
 const setTimeIn = ({ target }) => {
   timeOut.options[target.options.selectedIndex].selected = true;
-  setValidityTimeout(timeOut, 'Изменилось время выезда');
 };
 
 const setTimeOut = ({ target }) => {
   timeIn.options[target.options.selectedIndex].selected = true;
-  setValidityTimeout(timeIn, 'Изменилось время заезда');
 };
 
 const validateForms = () => {

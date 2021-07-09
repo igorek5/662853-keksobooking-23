@@ -1,7 +1,8 @@
 const forms = document.querySelectorAll('form');
+const formsElements = document.querySelectorAll('form input, select, button, textarea');
 
-const setElementDisableState = (form) => {
-  form.querySelectorAll('form input, select, button, textarea').forEach((item) => {
+const setElementDisableState = () => {
+  formsElements.forEach((item) => {
     item.disabled = true;
   });
 };
@@ -15,8 +16,8 @@ const setElementEnableState = (form) => {
 const setDeactivatePageState = () => {
   forms.forEach((form) => {
     form.classList.add('disabled');
-    setElementDisableState(form);
   });
+  setElementDisableState();
 };
 
 const setActivateFormState = (form) => {
