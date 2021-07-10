@@ -25,4 +25,4 @@ const setActivateFormState = (form) => {
   setElementEnableState(form);
 };
 
-export {setDeactivatePageState, setActivateFormState};
+export { setDeactivatePageState, setActivateFormState };
