@@ -5,16 +5,16 @@ import { onGetError } from '../api-callbacks/on-error-action.js';
 import { activateAdForm } from '../ad-form/activate-ad-form.js';
 import { filterAdverts } from '../filter/filter.js';
 
-const map = L.map('map-canvas');
-const addressInput = document.querySelector('#address');
-let mainPinMarker;
-let markerGroup;
-
 const ADVERT_COUNTER = 10;
 const CITY_CENTER = {
   lat: '35.67500',
   lng: '139.75000',
 };
+
+const map = L.map('map-canvas');
+const addressInput = document.querySelector('#address');
+let mainPinMarker;
+let markerGroup;
 
 const setAddressInputValue = (lat, lng) => {
   addressInput.value = `${lat}, ${lng}`;
@@ -29,9 +29,9 @@ const removeMarkerGroup = () => {
   markerGroup.clearLayers();
 };
 
-const addMarkersGroup = (arr) => {
+const addMarkersGroup = (adverts) => {
   markerGroup = L.layerGroup().addTo(map);
-  arr
+  adverts
     .slice()
     .filter(filterAdverts)
     .slice(0, ADVERT_COUNTER)

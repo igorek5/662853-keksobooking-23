@@ -39,12 +39,7 @@ const typeToPrice = {
   'default': 1000,
 };
 
-const setPriseDefault = () => {
-  price.min = typeToPrice['default'];
-  price.placeholder = typeToPrice['default'];
-};
-
-const validateFieldLength = ({ target }) => {
+const formTitleInputHandler = ({ target }) => {
   if (target.value.length < target.minLength) {
     target.setCustomValidity(`Минимальная длина — ${target.minLength} символов, введите еще ${target.minLength - target.value.length} символов`);
   } else if (target.value.length > target.maxLength) {
@@ -55,7 +50,7 @@ const validateFieldLength = ({ target }) => {
   target.reportValidity();
 };
 
-const validateRangeField = ({ target }) => {
+const formPriceInputHandler = ({ target }) => {
   if (target.value < +target.min) {
     target.setCustomValidity(`Минимальное значение для этого поля: ${target.min} ₽/ночь`);
   } else if (target.value > +target.max) {
@@ -84,31 +79,40 @@ const changeRoomQuantityInputState = (el) => {
   guestQuantityOption[roomsToOptions[el.value].value].selected = true;
 };
 
-const setFieldDependency = ({ target }) => {
+const formTypeChangeHandler = ({ target }) => {
   changePriceInputState(target);
 };
 
-const roomQuantitySelectHandler = ({ target }) => {
+const formQuantitySelectHandler = ({ target }) => {
   changeRoomQuantityInputState(target);
 };
 
-const setTimeIn = ({ target }) => {
+const formTimeInChangeHandler = ({ target }) => {
   timeOut.options[target.options.selectedIndex].selected = true;
 };
 
-const setTimeOut = ({ target }) => {
+const formTimeOutChangeHandler = ({ target }) => {
   timeIn.options[target.options.selectedIndex].selected = true;
+};
+
+const setPriceDefault = () => {
+  price.min = typeToPrice['default'];
+  price.placeholder = typeToPrice['default'];
+};
+
+const setRoomsDefault = () => {
+  changeRoomQuantityInputState(roomNumber);
 };
 
 const validateForms = () => {
   changePriceInputState(type);
   changeRoomQuantityInputState(roomNumber);
-  title.addEventListener('input', validateFieldLength);
-  type.addEventListener('change', setFieldDependency);
-  price.addEventListener('input', validateRangeField);
-  roomNumber.addEventListener('change', roomQuantitySelectHandler);
-  timeIn.addEventListener('change', setTimeIn);
-  timeOut.addEventListener('change', setTimeOut);
+  title.addEventListener('input', formTitleInputHandler);
+  type.addEventListener('change', formTypeChangeHandler);
+  price.addEventListener('input', formPriceInputHandler);
+  roomNumber.addEventListener('change', formQuantitySelectHandler);
+  timeIn.addEventListener('change', formTimeInChangeHandler);
+  timeOut.addEventListener('change', formTimeOutChangeHandler);
 };
 
-export { validateForms, setPriseDefault };
+export { validateForms, setPriceDefault, setRoomsDefault };

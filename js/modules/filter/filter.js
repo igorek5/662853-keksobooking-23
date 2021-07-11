@@ -1,16 +1,17 @@
 import {removeMarkerGroup} from '../map/map.js';
 
 const FILTERING_DELAY = 500;
+const PriceTypes = {
+  'LOW': 10000,
+  'HIGH': 50000,
+};
 const filterForm = document.querySelector('.map__filters');
 const housingTypeFilter = filterForm.querySelector('#housing-type');
 const housingPriceFilter = filterForm.querySelector('#housing-price');
 const roomsQuantityFilter = filterForm.querySelector('#housing-rooms');
 const guestsQuantityFilter = filterForm.querySelector('#housing-guests');
 const featuresFilter = filterForm.querySelector('#housing-features');
-const PriceTypes = {
-  'LOW': 10000,
-  'HIGH': 50000,
-};
+
 let timer;
 
 const getFilterByHousingPrice = (price) => {

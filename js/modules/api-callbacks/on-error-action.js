@@ -5,14 +5,14 @@ const createErrorMarkup = (text, btnState) => `<div class="error">
                                                 ${btnState ? '<button type="button" class="error__button">Попробовать снова</button>' : ''}
                                               </div>`;
 
-const onErrorBlockClick = (evt) => {
+const errorBlockClickHandler = (evt) => {
   evt.preventDefault();
   if (evt.target.closest('.error')) {
     closeErrorBlock();
   }
 };
 
-const onDocumentKeydown = (evt) => {
+const documentKeydownHandler = (evt) => {
   evt.preventDefault();
   if (isEscEvent(evt)) {
     closeErrorBlock();
@@ -20,14 +20,14 @@ const onDocumentKeydown = (evt) => {
 };
 
 const addListeners = () => {
-  document.addEventListener('click', onErrorBlockClick);
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('click', errorBlockClickHandler);
+  document.addEventListener('keydown', documentKeydownHandler);
 };
 
 function closeErrorBlock() {
   document.querySelector('.error').remove();
-  document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onErrorBlockClick);
+  document.removeEventListener('keydown', documentKeydownHandler);
+  document.removeEventListener('click', errorBlockClickHandler);
 }
 
 const onGetError = () => {
